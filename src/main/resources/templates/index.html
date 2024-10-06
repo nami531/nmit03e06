@@ -29,15 +29,16 @@
 <body>
     <table>
         <tr>
-            <td class="focus">Operand1</td>
+            <td th:classappend="${status=='OP1'} ? 'focus' : 'normal'">Operand1</td>
+           
             <td th:text="${operand1}"></td>
         </tr>
         <tr>
-            <td>Operand2</td>
+            <td th:classappend="${status=='OP2'} ? 'focus' : 'normal'">Operand2</td>
             <td th:text="${operand2}"></td>
         </tr>
         <tr>
-            <td>Result</td>
+            <td th:classappend="${status=='EQUALS'} ? 'focus' : 'normal'" >Result</td>
             <td th:text="${result}"></td>
         </tr>
     </table><br /> <br /> <br />
@@ -63,6 +64,7 @@
             <td><a th:href="@{/clear}">Clear</a></td>
         </tr>
         <tr>
+            <td ><a th:href= "@{/minus}">-</a></td>
             <td colspan="2"><a th:href="@{/equals}">=</a></td>
         </tr>
     </table>

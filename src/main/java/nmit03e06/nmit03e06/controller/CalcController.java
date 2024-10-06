@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import nmit03e06.nmit03e06.service.MathService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -21,7 +23,8 @@ public class CalcController {
     private Status status = Status.OP1; 
 
     @GetMapping({"/","/home", "/index", " "})
-    public String showIndex() {
+    public String showIndex(Model model) {
+        model.addAttribute("status", status.name());
         return "index";
     }
     
@@ -37,6 +40,7 @@ public class CalcController {
         }
         model.addAttribute("operand1", s.getOperand1());
         model.addAttribute("operand2", s.getOperand2());
+        model.addAttribute("status", status.name());
         return "index";
     }
 
@@ -45,6 +49,7 @@ public class CalcController {
         status =Status.OP2; 
         model.addAttribute("operand1", s.getOperand1());
         model.addAttribute("operand2", s.getOperand2());
+        model.addAttribute("status", status.name());
         return "index";
     }
     
@@ -52,9 +57,19 @@ public class CalcController {
     public String clearIndex(){
         s.setOperand1(""); 
         s.setOperand2(""); 
-        status =Status.OP2;  
+        status =Status.OP1;  
         return "redirect:/index"; 
     }
+
+    @GetMapping("/minus")
+    public String minus(Model model) {
+        status = Status.OP2; 
+        model.addAttribute("operand1", s.getOperand1()); 
+        model.addAttribute("operand2", s.getOperand2());
+        model.addAttribute("status", status.name()); 
+        return "index";
+    }
+    
 
     @GetMapping("/equals")
     public String showResult(Model model){
@@ -62,6 +77,7 @@ public class CalcController {
         status = Status.EQUALS; 
         model.addAttribute("operand1", s.getOperand1());
         model.addAttribute("operand2", s.getOperand2());
+        model.addAttribute("status", status.name());
         model.addAttribute("result", result); 
         return "index"; 
     }
