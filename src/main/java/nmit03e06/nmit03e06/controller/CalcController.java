@@ -18,7 +18,7 @@ public class CalcController {
     @Autowired
     private MathService s; 
 
-    private boolean opadded=false; 
+    private Status status = Status.OP1; 
 
     @GetMapping({"/","/home", "/index", " "})
     public String showIndex() {
@@ -27,7 +27,7 @@ public class CalcController {
     
     @GetMapping("/digit/{number}")
     public String addNumber(Model model, @PathVariable String number) { 
-        if (!opadded){
+        if (status == Status.OP1){
             s.setOperand1(s.getOperand1() + number); 
             System.out.println(s.getOperand1()); 
             
@@ -42,7 +42,7 @@ public class CalcController {
 
     @GetMapping("/addition")
     public String additionPressed(Model model) {
-        opadded = true; 
+        status =Status.OP2; 
         model.addAttribute("operand1", s.getOperand1());
         model.addAttribute("operand2", s.getOperand2());
         return "index";
@@ -52,13 +52,14 @@ public class CalcController {
     public String clearIndex(){
         s.setOperand1(""); 
         s.setOperand2(""); 
-        opadded=false; 
+        status =Status.OP2;  
         return "redirect:/index"; 
     }
 
     @GetMapping("/equals")
     public String showResult(Model model){
         int result = s.add(); 
+        status = Status.EQUALS; 
         model.addAttribute("operand1", s.getOperand1());
         model.addAttribute("operand2", s.getOperand2());
         model.addAttribute("result", result); 
